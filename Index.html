@@ -1,12 +1,519 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>FIFCDA - Data Science Courses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --accent: #fbbc05;
+      --bg: #f7f8fa;
+      --card-bg: #fff;
+      --text: #222;
+      --nav-bg: #fff;
+      --nav-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      --radius: 12px;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      background: var(--nav-bg);
+      box-shadow: var(--nav-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      letter-spacing: 2px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    nav a.active, nav a:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .hero {
+      text-align: center;
+      padding: 16px 10px 12px 10px;
+      background: linear-gradient(90deg, #1a73e8 60%, #4285f4 100%);
+      color: #fff;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      font-weight: 550;
+    }
+    .hero p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .cta-btn {
+      background: var(--accent);
+      color: #222;
+      padding: 14px 36px;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 8px 22px;
+      border-radius: 22px;
+      font-weight: 500;
+    }
+    .cta-btn:hover {
+      background: #ffe066;
+    }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+    .courses-section {
+      margin-bottom: 60px;
+    }
+    .courses-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 32px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+    }
+    .course-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 28px 20px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: box-shadow 0.2s;
+      position: relative;
+    }
+    .course-card:hover {
+      box-shadow: 0 4px 18px rgba(26,115,232,0.12);
+    }
+    .course-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    .course-desc {
+      font-size: 1rem;
+      margin-bottom: 18px;
+      color: #444;
+    }
+    .details-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 22px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .details-btn:hover {
+      background: #0c53b7;
+    }
+    .details-section,
+    .contact-section {
+      display: none;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 32px 24px;
+      margin: 0 auto 60px auto;
+      max-width: 700px;
+      text-align: left;
+      animation: fadeIn 0.4s;
+    }
+    .details-section.active,
+    .contact-section.active {
+      display: block;
+    }
+    .details-section h2,
+    .contact-section h2 {
+      color: var(--primary);
+      margin-bottom: 18px;
+      font-size: 1.5rem;
+    }
+    .details-section p,
+    .contact-section p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 18px;
+    }
+    .back-btn {
+      background: var(--accent);
+      color: #222;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 22px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover {
+      background: #ffe066;
+    }
+    footer {
+      background: #1a73e8;
+      color: #fff;
+      text-align: center;
+      padding: 18px 0;
+      font-size: 1rem;
+      margin-top: 40px;
+    }
+    @media (max-width: 700px) {
+      nav {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .courses-grid {
+        grid-template-columns: 1fr;
+      }
+      main {
+        padding: 16px 4px;
+      }
+      .details-section,
+      .contact-section {
+        padding: 18px 8px;
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello, World! this is a version 4</h1>
+<header>
+  <nav>
+    <div class="logo">FIFCDA</div>
+    <ul>
+      <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
+      <li><a href="#" class="nav-link" data-section="courses">Courses</a></li>
+      <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="hero" id="home">
+    <h1>Advance Your Career in Data Science</h1>
+    <p>FIFCDA offers industry-leading data science courses, expert faculty, and career support.<br>
+      Start your journey today!</p>
+    <a href="#" class="cta-btn nav-link" data-section="courses">View Top Courses</a>
+  </div>
+</header>
+<main>
+  <section class="courses-section" id="courses">
+    <div class="courses-title">Top 20 Data Science Courses</div>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="course-title">Data Science Foundation</div>
+        <div class="course-desc">Kickstart your data science journey with core concepts and tools.</div>
+        <button class="details-btn" data-course="0">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Python for Data Science</div>
+        <div class="course-desc">Master Python programming for analytics and machine learning.</div>
+        <button class="details-btn" data-course="1">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Machine Learning Essentials</div>
+        <div class="course-desc">Learn ML algorithms, model building, and evaluation techniques.</div>
+        <button class="details-btn" data-course="2">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Deep Learning & Neural Networks</div>
+        <div class="course-desc">Explore neural networks, CNNs, RNNs, and deep learning frameworks.</div>
+        <button class="details-btn" data-course="3">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Statistics for Data Science</div>
+        <div class="course-desc">Build a strong foundation in statistics for analytics and modeling.</div>
+        <button class="details-btn" data-course="4">Details / Enroll</button>
+      </div>
+        <div class="course-card">
+          <div class="course-title">Forecasting</div>
+          <div class="course-desc">Learn advanced forecasting techniques for business and analytics.</div>
+          <button class="details-btn" data-course="20">Details / Enroll</button>
+        </div>
+        <div class="course-card">
+          <div class="course-title">Competitive Intelligence</div>
+          <div class="course-desc">Master the art of gathering and analyzing competitive market data.</div>
+          <button class="details-btn" data-course="21">Details / Enroll</button>
+        </div>
+        <div class="course-card">
+          <div class="course-title">Clinical Data Management</div>
+          <div class="course-desc">Understand clinical trial data management and regulatory requirements.</div>
+          <button class="details-btn" data-course="22">Details / Enroll</button>
+        </div>
+        <div class="course-card">
+          <div class="course-title">Market Research</div>
+          <div class="course-desc">Develop skills in market research methodologies and analytics.</div>
+          <button class="details-btn" data-course="23">Details / Enroll</button>
+        </div>
+      <div class="course-card">
+        <div class="course-title">SQL & Databases</div>
+        <div class="course-desc">Learn SQL, relational databases, and data extraction for analysis.</div>
+        <button class="details-btn" data-course="5">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Data Visualization with Python</div>
+        <div class="course-desc">Create impactful visualizations using Matplotlib, Seaborn, Plotly.</div>
+        <button class="details-btn" data-course="6">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Big Data Analytics</div>
+        <div class="course-desc">Work with Hadoop, Spark, and large-scale data processing tools.</div>
+        <button class="details-btn" data-course="7">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Business Analytics</div>
+        <div class="course-desc">Apply analytics to solve real business problems and drive decisions.</div>
+        <button class="details-btn" data-course="8">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">AI & Natural Language Processing</div>
+        <div class="course-desc">Build intelligent systems for text, speech, and language data.</div>
+        <button class="details-btn" data-course="9">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Cloud Computing for Data Science</div>
+        <div class="course-desc">Leverage AWS, Azure, and GCP for scalable data solutions.</div>
+        <button class="details-btn" data-course="10">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Data Engineering</div>
+        <div class="course-desc">Design and build robust data pipelines and ETL workflows.</div>
+        <button class="details-btn" data-course="11">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Tableau & Power BI</div>
+        <div class="course-desc">Master dashboarding and business intelligence tools.</div>
+        <button class="details-btn" data-course="12">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Applied Data Science Projects</div>
+        <div class="course-desc">Work on real-world projects to build your portfolio.</div>
+        <button class="details-btn" data-course="13">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">R for Data Science</div>
+        <div class="course-desc">Analyze and visualize data using R programming.</div>
+        <button class="details-btn" data-course="14">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Data Science for Finance</div>
+        <div class="course-desc">Apply data science techniques to financial data and modeling.</div>
+        <button class="details-btn" data-course="15">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Data Science for Healthcare</div>
+        <div class="course-desc">Solve healthcare challenges with analytics and AI.</div>
+        <button class="details-btn" data-course="16">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Time Series Analysis</div>
+        <div class="course-desc">Forecast and analyze temporal data using advanced methods.</div>
+        <button class="details-btn" data-course="17">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Data Ethics & Privacy</div>
+        <div class="course-desc">Understand responsible data use, privacy, and compliance.</div>
+        <button class="details-btn" data-course="18">Details / Enroll</button>
+      </div>
+      <div class="course-card">
+        <div class="course-title">Career Prep in Data Science</div>
+        <div class="course-desc">Resume building, interview prep, and job search strategies.</div>
+        <button class="details-btn" data-course="19">Details / Enroll</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="details-section" id="details">
+    <h2 id="details-title"></h2>
+    <p id="details-desc"></p>
+    <p><strong>Duration:</strong> <span id="details-duration"></span></p>
+    <p><strong>Mode:</strong> Online / Classroom / Hybrid</p>
+    <p><strong>Next Batch:</strong> <span id="details-batch"></span></p>
+    <div style="display: flex; gap: 18px; margin-top: 18px;">
+      <button class="back-btn" id="back-btn">Back to Courses</button>
+      <button class="cta-btn" id="enroll-btn" style="background: var(--accent); color: #222;">Enroll Now</button>
+    </div>
+
+    <!-- Enroll modal removed as enroll now opens Topmate link -->
+  </section>
+
+  <section class="contact-section" id="contact">
+    <h2>Contact FIFCDA</h2>
+    <p>FIFCDA is a leading institute for data science education, offering hands-on training, expert faculty, and career
+      support. Our mission is to empower professionals and students to excel in analytics, AI, and data-driven fields.</p>
+    <p><strong>Email:</strong> <a href="mailto:contact@fifcda.com">contact@fifcda.com</a></p>
+    <p><strong>Phone:</strong> +91-9779629693</p>
+    <p><strong>Address:</strong> FIFCDA, Headquarters, Remote, IN</p>
+    <form id="contact-form" autocomplete="off" method="POST" action="https://formsubmit.co/contact@fifcda.com"
+      target="_blank" style="margin-top:18px;">
+      <input type="hidden" name="_captcha" value="false" />
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" required style="width:90%;padding:8px;margin-bottom:8px;" /><br />
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" required style="width:90%;padding:8px;margin-bottom:8px;" /><br />
+      <label for="message">Message:</label><br />
+      <textarea id="message" name="message" rows="3" required style="width:90%;padding:8px;margin-bottom:8px;"></textarea><br />
+      <button type="submit" class="cta-btn">Send Message</button>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  &copy; 2025 FIFCDA. All rights reserved.
+</footer>
+
+<script>
+  const courses = [
+  { title: "Data Science Foundation", desc: "Kickstart your data science journey with core concepts and tools.", duration: "3 months", batch: "Sep 2025" },
+  { title: "Python for Data Science", desc: "Master Python programming for analytics and machine learning.", duration: "2 months", batch: "Sep 2025" },
+  { title: "Machine Learning Essentials", desc: "Learn ML algorithms, model building, and evaluation techniques.", duration: "3 months", batch: "Oct 2025" },
+  { title: "Deep Learning & Neural Networks", desc: "Explore neural networks, CNNs, RNNs, and deep learning frameworks.", duration: "3 months", batch: "Oct 2025" },
+  { title: "Statistics for Data Science", desc: "Build a strong foundation in statistics for analytics and modeling.", duration: "2 months", batch: "Sep 2025" },
+  { title: "SQL & Databases", desc: "Learn SQL, relational databases, and data extraction for analysis.", duration: "1.5 months", batch: "Sep 2025" },
+  { title: "Data Visualization with Python", desc: "Create impactful visualizations using Matplotlib, Seaborn, Plotly.", duration: "1.5 months", batch: "Oct 2025" },
+  { title: "Big Data Analytics", desc: "Work with Hadoop, Spark, and large-scale data processing tools.", duration: "2 months", batch: "Oct 2025" },
+  { title: "Business Analytics", desc: "Apply analytics to solve real business problems and drive decisions.", duration: "2 months", batch: "Sep 2025" },
+  { title: "AI & Natural Language Processing", desc: "Build intelligent systems for text, speech, and language data.", duration: "2 months", batch: "Oct 2025" },
+  { title: "Cloud Computing for Data Science", desc: "Leverage AWS, Azure, and GCP for scalable data solutions.", duration: "1.5 months", batch: "Sep 2025" },
+  { title: "Data Engineering", desc: "Design and build robust data pipelines and ETL workflows.", duration: "2 months", batch: "Oct 2025" },
+  { title: "Tableau & Power BI", desc: "Master dashboarding and business intelligence tools.", duration: "1.5 months", batch: "Sep 2025" },
+  { title: "Applied Data Science Projects", desc: "Work on real-world projects to build your portfolio.", duration: "2 months", batch: "Oct 2025" },
+  { title: "R for Data Science", desc: "Analyze and visualize data using R programming.", duration: "1.5 months", batch: "Sep 2025" },
+  { title: "Data Science for Finance", desc: "Apply data science techniques to financial data and modeling.", duration: "2 months", batch: "Oct 2025" },
+  { title: "Data Science for Healthcare", desc: "Solve healthcare challenges with analytics and AI.", duration: "2 months", batch: "Sep 2025" },
+  { title: "Time Series Analysis", desc: "Forecast and analyze temporal data using advanced methods.", duration: "1.5 months", batch: "Oct 2025" },
+  { title: "Data Ethics & Privacy", desc: "Understand responsible data use, privacy, and compliance.", duration: "1 month", batch: "Sep 2025" },
+  { title: "Career Prep in Data Science", desc: "Resume building, interview prep, and job search strategies.", duration: "1 month", batch: "Oct 2025" }
+  ,{ title: "Forecasting", desc: "Learn advanced forecasting techniques for business and analytics.", duration: "2 months", batch: "16 Sep 2025" }
+  ,{ title: "Competitive Intelligence", desc: "Master the art of gathering and analyzing competitive market data.", duration: "1.5 months", batch: "18 Sep 2025" }
+  ,{ title: "Clinical Data Management", desc: "Understand clinical trial data management and regulatory requirements.", duration: "2 months", batch: "20 Sep 2025" }
+  ,{ title: "Market Research", desc: "Develop skills in market research methodologies and analytics.", duration: "1.5 months", batch: "22 Sep 2025" }
+  ];
+
+  function showSection(section) {
+    document.querySelectorAll("main > section").forEach(s => (s.style.display = "none"));
+    document.querySelectorAll(".nav-link").forEach(a => a.classList.remove("active"));
+    if (section === "home") {
+      document.querySelector(".hero").style.display = "block";
+      document.querySelector(".courses-section").style.display = "block";
+      document.querySelector(".contact-section").style.display = "none";
+      document.querySelector(".details-section").style.display = "none";
+      document.querySelector('.nav-link[data-section="home"]').classList.add("active");
+    } else if (section === "courses") {
+      document.querySelector(".hero").style.display = "none";
+      document.querySelector(".courses-section").style.display = "block";
+      document.querySelector(".contact-section").style.display = "none";
+      document.querySelector(".details-section").style.display = "none";
+      document.querySelector('.nav-link[data-section="courses"]').classList.add("active");
+    } else if (section === "contact") {
+      document.querySelector(".hero").style.display = "none";
+      document.querySelector(".courses-section").style.display = "none";
+      document.querySelector(".details-section").style.display = "none";
+      document.querySelector(".contact-section").style.display = "block";
+      document.querySelector('.nav-link[data-section="contact"]').classList.add("active");
+    }
+  }
+
+  document.querySelectorAll(".nav-link").forEach(a => {
+    a.addEventListener("click", function(e) {
+      e.preventDefault();
+      showSection(this.getAttribute("data-section"));
+    });
+  });
+
+  document.querySelectorAll(".details-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const idx = parseInt(this.getAttribute("data-course"));
+      document.querySelector(".courses-section").style.display = "none";
+      document.querySelector(".details-section").style.display = "block";
+      document.getElementById("details-title").textContent = courses[idx].title;
+      document.getElementById("details-desc").textContent = courses[idx].desc;
+      document.getElementById("details-duration").textContent = courses[idx].duration;
+      document.getElementById("details-batch").textContent = courses[idx].batch;
+      document.getElementById("enroll-course-title").textContent = courses[idx].title;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  document.getElementById("back-btn").addEventListener("click", function() {
+    document.querySelector(".details-section").style.display = "none";
+    document.querySelector(".courses-section").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.getElementById("enroll-btn").addEventListener("click", function() {
+  window.open("https://topmate.io/rajesh_kumar172/1707635?utm_source=public_profile&utm_campaign=rajesh_kumar172", "_blank");
+  });
+
+  document.getElementById("enroll-close").addEventListener("click", function() {
+    document.getElementById("enroll-modal").style.display = "none";
+  });
+
+  document.getElementById("enroll-form").addEventListener("submit", function() {
+    document.getElementById("enroll-modal").style.display = "none";
+  });
+
+  document.getElementById("contact-form").addEventListener("submit", function() {
+    document.querySelector(".contact-section").style.display = "none";
+  });
+
+  showSection("home");
+</script>
 </body>
 </html>
